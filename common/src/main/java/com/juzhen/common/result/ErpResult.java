@@ -29,8 +29,8 @@ public class ErpResult<T>  implements Serializable {
         this.data = (T) value;
     }
     public ErpResult(int i, String msg, Object value) {
-        this.code = 200;
-        this.msg = "OK";
+        this.code = 500;
+        this.msg = msg;
         this.data = (T) value;
     }
     public static ErpResult errorMsg(String msg) {

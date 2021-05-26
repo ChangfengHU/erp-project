@@ -7,11 +7,9 @@
 //import com.juzhen.admin.redis.RedisClient;
 //import com.juzhen.admin.service.ISysUserService;
 //import com.juzhen.common.result.ErpResult;
+//import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.bind.annotation.*;
 //
 //import java.util.HashMap;
 //import java.util.Random;
@@ -26,6 +24,7 @@
 // */
 //@RestController
 //@RequestMapping("hy-admin/sys")
+//@Slf4j
 //public class SysUserController {
 //
 //    @Autowired
@@ -35,7 +34,8 @@
 //    private RedisClient redisClient;
 //
 //    @RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
-//    public ErpResult login(@RequestBody SysUser user) throws Exception {
+//    public ErpResult login(SysUser user) throws Exception {
+////        System.out.println(username+password);
 //        System.out.println("快进来11" + user.getUsername() + "::" + user.getPassword());
 //        // 0. 判断用户名和密码不能为空
 //        if (StringUtils.isBlank(user.getUsername())
@@ -44,26 +44,28 @@
 //        }
 //
 //        // 1. 判断用户名是否存在，如果存在就登录，如果不存在则注册
-//        boolean usernameIsExist = sysUserService.queryUsernameIsExist(user.getUsername());
+////        boolean usernameIsExist = sysUserService.queryUsernameIsExist(user.getUsername());
 //        QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
-//        wrapper.eq("username", "username");
+//        wrapper.eq("username", user.getUsername());
 //
 //        SysUser one = sysUserService.getOne(wrapper, true);
-//
+//        log.info("one={}",one);
 //        if (one == null) {
-//            ErpResult.errorMsg("用户不存在");
+//            log.info("one={}","用户不存在");
+//            return  ErpResult.errorMsg("用户不存在");
 //        }
 //        if (!StringUtils.isEquals(user.getPassword(), one.getPassword())) {
-//            ErpResult.errorMsg("用户名或密码错误");
+//            log.info("one={}","用户名或密码错误");
+//            return ErpResult.errorMsg("用户名或密码错误");
 //        }
 //        if (one.getStatus() != 1) {
-//            ErpResult.errorMsg("该用户禁止登陆");
+//            return ErpResult.errorMsg("该用户禁止登陆");
 //        }
 //        //2. 生成token
 //        String token = genToken();
-//
+//        log.info("one={}","用户名或密码错误");
 //        //3. 缓存用户
-//        redisClient.set(token, one, 3600);
+////        redisClient.set(token, one, 3600);
 //        HashMap<String, Object> stringStringHashMap = new HashMap<>();
 //        stringStringHashMap.put("token", token);
 //        stringStringHashMap.put("expire", 43200);
