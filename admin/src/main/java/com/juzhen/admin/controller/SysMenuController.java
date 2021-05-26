@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2021-05-19
  */
 @Controller
-@RequestMapping("sysmenu/sys-menu")
+@RequestMapping("hy-admin/sys/menu")
 public class SysMenuController {
 
     @Autowired
