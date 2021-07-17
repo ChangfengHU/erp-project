@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.juzhen.admin.aop.TryCatch;
 import com.juzhen.admin.entity.SysUser;
 import com.juzhen.admin.mapper.SysUserMapper;
+import com.juzhen.admin.service.ISysTestService;
 import com.juzhen.admin.service.ISysUserService;
 import com.juzhen.common.utils.MD5Utils;
 import org.springframework.stereotype.Service;
@@ -19,25 +20,27 @@ import org.springframework.stereotype.Service;
  * @author huchangfeng
  * @since 2021-05-26
  */
-@Service("sysUserService")
-public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+@Service("iSysTestService")
+public class SysTesterviceImpl implements ISysTestService {
 
     @Override
     public boolean queryUsernameIsExist(String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
         wrapper.eq("username", "username");
         //根据条件查询一条数据，如果结果超过一条会报错
-        SysUser result = this.baseMapper.selectOne(wrapper);
-        return result != null ? true : false;
+//        SysUser result = this.baseMapper.selectOne(wrapper);
+//        return result != null ? true : false;
+        return false;
+
     }
     @Override
     @TryCatch
     public SysUser login(SysUser user)  {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
         wrapper.eq("username", user.getUsername());
-        SysUser one = getOne(wrapper, true);
-        handleAfterLogin(user, one);
-        return one;
+//        SysUser one = getOne(wrapper, true);
+//        handleAfterLogin(user, one);
+        return null;
     }
 
     private void handleAfterLogin(SysUser user, SysUser one)  {

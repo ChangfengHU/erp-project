@@ -3,8 +3,8 @@ package com.juzhen.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.juzhen.admin.entity.SysUser;
 
-public interface ISysUserService extends IService<SysUser> {
+public interface ISysTestService {
 
     boolean queryUsernameIsExist(String username);
-    SysUser login(SysUser user) ;
+    public  SysUser login(SysUser user) ;
 }
