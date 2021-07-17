@@ -1,4 +1,4 @@
-package com.juzhen.admin.aop;
+package com.juzhen.admin.redis;
 
 import java.lang.annotation.*;
 

@@ -3,15 +3,17 @@ package com.juzhen.admin.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.juzhen.admin.aop.TryCatch;
 import com.juzhen.admin.entity.SysUser;
-import com.juzhen.admin.redis.RedisClient;
-import com.juzhen.admin.service.ISysTestService;
+import com.juzhen.admin.mapper.SysUserMapper;
+import com.juzhen.admin.redis.RedisTool;
+import com.juzhen.admin.redis.TryCatch;
 import com.juzhen.admin.service.ISysUserService;
 import com.juzhen.common.result.ErpResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -33,15 +35,18 @@ public class SysUserController {
     ISysUserService sysUserService;
 
     @Autowired
-    private RedisClient redisClient;
+    private RedisTool redisTool;
+
 
     @Autowired
-    ISysTestService iSysTestService;
-
-
+    SysUserMapper sysUserMapper;
+    @TryCatch
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     public ErpResult login(SysUser user) throws Exception {
-        iSysTestService.login(user);
+        log.info("登录开始={}", user);
+        SysUser user1 = new SysUser();
+        user1.setEmail("3421312312");
+        int update = sysUserMapper.update(user1, null);
         //校验
         verifyParam(user);
         //登录
@@ -71,7 +76,7 @@ public class SysUserController {
     private HashMap<String, Object> buildToken(SysUser one) {
         String token = genToken();
         //3. 缓存用户
-        redisClient.set(token, one, 3600);
+        redisTool.set(token, one, 3600);
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("token", token);
         stringStringHashMap.put("expire", 43200);

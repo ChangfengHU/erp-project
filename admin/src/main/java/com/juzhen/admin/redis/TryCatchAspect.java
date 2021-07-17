@@ -1,4 +1,4 @@
-package com.juzhen.admin.aop;
+package com.juzhen.admin.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
@@ -12,8 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.regex.Pattern;
-
 /**
  * @Author： ye.lu
  * @Date： 2020/7/8 14:44
@@ -23,17 +21,18 @@ import java.util.regex.Pattern;
 @Aspect
 @Component
 @Slf4j
+@Order(300)
 public class TryCatchAspect {
 
-//    @Pointcut("execution(* com.juzhen.admin.service.*(*))")
-//    public void RlockAspect() {
-//    }
-    @Pointcut("@annotation(TryCatch)")
-    private void servicePointCut() {
-        System.out.println("没有看到");
+    @Pointcut("execution(* com.juzhen.admin.controller.*(*))")
+    public void RlockAspect() {
     }
+//    @Pointcut("@annotation(TryCatch)")
+//    private void servicePointCut() {
+//        System.out.println("没有看到");
+//    }
 
-    @Around("servicePointCut()")
+    @Around("RlockAspect()")
     public Object doArround(ProceedingJoinPoint proceedingJoinPoint)  {
         long startTime = System.currentTimeMillis();
 
@@ -58,7 +57,7 @@ public class TryCatchAspect {
             throwable.printStackTrace();
         }
         long endTime = System.currentTimeMillis()-startTime;
-        log.info("服务调用返回 接口名称={},结果={}，耗时={}",methonName, com.alibaba.fastjson.JSON.toJSON(object),endTime);
+        log.info("服务调用返回 接口名称={},结果={}，耗时={}",methonName, JSON.toJSON(object),endTime);
         return object;
     }
 
