@@ -4,7 +4,15 @@
 
 
 <select id="menuListForAdmin" resultType="com.juzhen.admin.entity.SysMenu">
-        SELECT s1.*,s2.name as parentName FROM sys_menu s1 LEFT JOIN sys_menu s2 ON s1.parent_id = s2.menu_id
+        SELECT s1.*,s2.name as parentName FROM sys_menu s1 LEFT JOIN sys_menu s2 ON s1.parent_id = s2.id
+
+        <if test="menuIdList != null">
+                and s1.id in
+                <foreach collection="menuIdList" item="menuId" open="(" close=")"
+                         separator=", " index="a">
+                        #{menuId}
+                </foreach>
+        </if>
         order by s1.order_num ASC ;
 </select>
 

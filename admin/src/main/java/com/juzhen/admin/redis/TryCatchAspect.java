@@ -24,15 +24,15 @@ import org.springframework.stereotype.Component;
 @Order(300)
 public class TryCatchAspect {
 
-    @Pointcut("execution(* com.juzhen.admin.controller.*(*))")
-    public void RlockAspect() {
-    }
-//    @Pointcut("@annotation(TryCatch)")
-//    private void servicePointCut() {
-//        System.out.println("没有看到");
+//    @Pointcut("execution(* com.juzhen.admin.controller.*(*))")
+//    public void RlockAspect() {
 //    }
+    @Pointcut("@annotation(TryCatch)")
+    private void servicePointCut() {
+        System.out.println("没有看到");
+    }
 
-    @Around("RlockAspect()")
+    @Around("servicePointCut()")
     public Object doArround(ProceedingJoinPoint proceedingJoinPoint)  {
         long startTime = System.currentTimeMillis();
 

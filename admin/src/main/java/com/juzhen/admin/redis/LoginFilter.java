@@ -36,20 +36,7 @@ private RedisTool redisTool;
         log.info("登录拦截------doFilter"+requestURI);
         HttpServletResponse response = (HttpServletResponse)servletResponse;
 
-        String token = request.getParameter("token");
-        log.info("登录拦截------token"+token);
-        if(StringUtils.isBlank(token)) {
-            String header = request.getHeader("token");
-            token = header;
-//            Cookie[] cookies = request.getCookies();
-//            if(cookies!=null) {
-//                for(Cookie c : cookies) {
-//                    if(c.getName().equals("token")) {
-//                        token = c.getValue();
-//                    }
-//                }
-//            }
-        }
+        String token = getString(request);
         log.info("登录拦截------token"+token);
         SysUser userDTO = null;
         if(StringUtils.isNotEmpty(token)) {
@@ -73,7 +60,26 @@ private RedisTool redisTool;
 
 //        login(request, response, userDTO);
         request.setAttribute("sysUser", userDTO);
+        request.setAttribute("token", token);
         filterChain.doFilter(request, response);
+    }
+
+    private String getString(HttpServletRequest request) {
+        String token = request.getParameter("token");
+        log.info("登录拦截------token"+token);
+        if(StringUtils.isBlank(token)) {
+            String header = request.getHeader("token");
+            token = header;
+//            Cookie[] cookies = request.getCookies();
+//            if(cookies!=null) {
+//                for(Cookie c : cookies) {
+//                    if(c.getName().equals("token")) {
+//                        token = c.getValue();
+//                    }
+//                }
+//            }
+        }
+        return token;
     }
 
     private SysUser requestUserInfo(String token) {

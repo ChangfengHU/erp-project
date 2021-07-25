@@ -3,11 +3,13 @@ package com.juzhen.admin.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -21,16 +23,17 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 //@TableName("sys_menu")
-public class SysMenu implements Serializable {
+public class SysMenu extends Model<SysMenu> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "menu_id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long menuId;
 
     /**
      * 父菜单ID，一级菜单为0
      */
+//    @TableField(value = "parent_id")
     private Long parentId;
 
     private String name;
@@ -56,4 +59,11 @@ public class SysMenu implements Serializable {
      */
     @TableField(exist = false)
     private String parentName;
+
+
+    /**
+     * 子节点
+     */
+    @TableField(exist = false)
+    private List<SysMenu> childList;
 }

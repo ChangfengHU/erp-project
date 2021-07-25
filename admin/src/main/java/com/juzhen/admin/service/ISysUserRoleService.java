@@ -1,0 +1,16 @@
+package com.juzhen.admin.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.juzhen.admin.entity.SysUserRole;
+
+/**
+ * <p>
+ * 用户与角色对应关系 服务类
+ * </p>
+ *
+ * @author huchangfeng
+ * @since 2021-07-21
+ */
+public interface ISysUserRoleService extends IService<SysUserRole> {
+
+}

@@ -11,6 +11,7 @@ import com.juzhen.admin.service.ISysUserService;
 import com.juzhen.common.result.ErpResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,9 +45,7 @@ public class SysUserController {
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     public ErpResult login(SysUser user) throws Exception {
         log.info("登录开始={}", user);
-        SysUser user1 = new SysUser();
-        user1.setEmail("3421312312");
-        int update = sysUserMapper.update(user1, null);
+
         //校验
         verifyParam(user);
         //登录
@@ -56,14 +55,9 @@ public class SysUserController {
         return ErpResult.ok(stringStringHashMap);
     }
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
-    public ErpResult logout(SysUser user)  {
-        //校验
-        verifyParam(user);
-        //登录
-        SysUser one =sysUserService.login(user);
-        //生成token
-        HashMap<String, Object> stringStringHashMap = buildToken(one);
-        return ErpResult.ok(stringStringHashMap);
+    public ErpResult logout(@RequestAttribute String token)  {
+        redisTool.del(token);
+        return ErpResult.ok(true);
     }
 
 
