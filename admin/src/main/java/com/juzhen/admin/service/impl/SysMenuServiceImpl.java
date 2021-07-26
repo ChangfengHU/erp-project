@@ -150,7 +150,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return sysMenuList1;
     }
 
-    /**
+
+    /**2
      * 获取 用户下有权限的所有的 菜单Id 2
      * @param userId   $2y$12$U1lRLlwtplsJyOxrAXoBY.uHFdNifxdO8yajq524i42StZWAsrrbS
      * @return
