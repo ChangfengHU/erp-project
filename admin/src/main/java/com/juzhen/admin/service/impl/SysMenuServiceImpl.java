@@ -38,7 +38,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> menuListForAdmin() {
-        return this.baseMapper.menuListForAdmin();
+        return this.baseMapper.menuListForAdmin(null);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             sysMenuQueryWrapper.in("menu_id", menuIdList);
         }
         sysMenuQueryWrapper.eq("parent_id", 0L);
-        sysMenuQueryWrapper.eq("type", 0);
+//        sysMenuQueryWrapper.eq("type", 0);
         return this.baseMapper.selectList(sysMenuQueryWrapper);
     }
 
@@ -117,7 +117,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         log.info("sysMenuList={}" + sysMenuList);
         for (SysMenu menu : sysMenuList) {
             QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
-            sysMenuQueryWrapper.eq("parent_id", menu.getMenuId());
+            sysMenuQueryWrapper.eq("parent_id", menu.getId());
             sysMenuQueryWrapper.orderByAsc("order_num");
             List<SysMenu> selectList = this.baseMapper.selectList(sysMenuQueryWrapper);
             menu.setChildList(selectList);
@@ -127,19 +127,27 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenu> select() {
         List<SysMenu> sysMenuList = getSysMenusFirst(null);
-        log.info("sysMenuList={}" + sysMenuList);
+        log.info("sysMenuList={}" , sysMenuList);
         List<SysMenu> sysMenus = new ArrayList<>();
         for (SysMenu sysMenu : sysMenuList) {
             QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
-            sysMenuQueryWrapper.eq("parent_id", sysMenu.getMenuId());
+            sysMenuQueryWrapper.eq("parent_id", sysMenu.getId());
             sysMenuQueryWrapper.orderByAsc("order_num");
             List<SysMenu> selectList = this.baseMapper.selectList(sysMenuQueryWrapper);
             sysMenus.addAll(selectList);
         }
-
-        List<Long> menuIds = sysMenus.stream().map(sysMenu -> sysMenu.getMenuId()).distinct().collect(Collectors.toList());
-
-        return null;
+        List<Long> collect = sysMenuList.stream().map(sysMenu -> sysMenu.getId()).collect(Collectors.toList());
+        List<Long> menuIds = sysMenus.stream().map(sysMenu -> sysMenu.getId()).distinct().collect(Collectors.toList());
+        menuIds.addAll(collect);
+        log.info("menuIds={}", menuIds);
+        List<SysMenu> sysMenuList1 = this.baseMapper.menuListForAdmin(menuIds);
+        log.info("menuIds={}", sysMenuList1);
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setParentId(-1L);
+        sysMenu.setName("一级菜单");
+        sysMenu.setOpen(true);
+        sysMenuList1.add(sysMenu);
+        return sysMenuList1;
     }
 
     /**

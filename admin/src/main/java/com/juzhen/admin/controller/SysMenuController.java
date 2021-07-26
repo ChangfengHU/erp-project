@@ -107,12 +107,11 @@ public class SysMenuController implements   BaseController  {
      */
 
     @ResponseBody
-    @GetMapping("info/list")
-    public ErpResult list() {
-//        SysMenu byId = sysMenuService.getById(id);
-//        log.info("info result ={}",byId);
-//        return ErpResult.ok(byId);
-        return null;
+    @GetMapping("select")
+    public ErpResult select() {
+        List<SysMenu> select = sysMenuService.select();
+        log.info("info result ={}",select);
+        return ErpResult.ok(select);
     }
 
     private void checkParamForSave(SysMenu sysMenu) {

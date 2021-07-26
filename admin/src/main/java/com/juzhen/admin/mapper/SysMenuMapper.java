@@ -3,6 +3,7 @@ package com.juzhen.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.juzhen.admin.entity.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ import java.util.List;
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
-    List<SysMenu> menuListForAdmin();
+    List<SysMenu> menuListForAdmin(@Param("menuIds") List<Long> menuIds);
 }

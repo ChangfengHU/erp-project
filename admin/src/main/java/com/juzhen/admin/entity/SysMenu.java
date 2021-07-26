@@ -28,7 +28,7 @@ public class SysMenu extends Model<SysMenu> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long menuId;
+    private Long id;
 
     /**
      * 父菜单ID，一级菜单为0
@@ -66,4 +66,16 @@ public class SysMenu extends Model<SysMenu> implements Serializable {
      */
     @TableField(exist = false)
     private List<SysMenu> childList;
+
+
+    /**
+     * 子节点
+     */
+    @TableField(exist = false)
+    private List<Long> menuIdList;
+    /**
+     * 子节点
+     */
+    @TableField(exist = false)
+    private Boolean open;
 }
