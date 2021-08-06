@@ -85,6 +85,20 @@ public class SysMenuController implements   BaseController  {
         boolean save = sysMenuService.save(sysMenu);
         return ErpResult.ok(save);
     }
+    /**
+     *  菜单列表（post）
+     * @param sysUser
+     * @return
+     */
+
+    @ResponseBody
+    @GetMapping("update")
+    public ErpResult updateMenu(@RequestAttribute SysUser sysUser,@RequestBody SysMenu sysMenu) {
+        log.info("获取登录信息sysUser" +sysMenu);
+        checkParamForSave(sysMenu);
+        boolean save = sysMenuService.updateById(sysMenu);
+        return ErpResult.ok(save);
+    }
 
     /**
      *  菜单列表（post）
@@ -99,6 +113,20 @@ public class SysMenuController implements   BaseController  {
         SysMenu byId = sysMenuService.getById(id);
         log.info("info result ={}",byId);
         return ErpResult.ok(byId);
+    }
+   /**
+     *  删除惨淡（post）
+     * @param id
+     * @return
+     */
+
+    @ResponseBody
+    @GetMapping("delete/{id}")
+    public ErpResult delete(@PathVariable Long id) {
+        log.info("info id ={}",id);
+        Boolean result = sysMenuService.delete(id);
+        log.info("info result ={}",result);
+        return ErpResult.ok(result);
     }
 
     /**
@@ -116,6 +144,7 @@ public class SysMenuController implements   BaseController  {
 
     private void checkParamForSave(SysMenu sysMenu) {
         Assert.notNull(sysMenu,"菜单为空");
+        Assert.notNull(sysMenu.getId(),"id is null");
         Assert.notNull(sysMenu.getParentId(),"parent is null");
         Assert.notNull(sysMenu.getName(),"name is null");
         Assert.notNull(sysMenu.getUrl(),"url is null");
@@ -124,5 +153,8 @@ public class SysMenuController implements   BaseController  {
         Assert.notNull(sysMenu.getIcon(),"icon is null");
         Assert.notNull(sysMenu.getOrderNum(),"orderNum is null");
     }
+
+
+
 
 }

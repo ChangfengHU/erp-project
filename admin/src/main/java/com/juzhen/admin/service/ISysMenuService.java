@@ -28,4 +28,6 @@ public interface ISysMenuService extends IService<SysMenu> {
     Set<String> menuPermissionsForUser(Long userId);
 
     List<SysMenu> select();
+
+    Boolean delete(Long id);
 }

@@ -2,6 +2,7 @@ package com.juzhen.admin.service.impl;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.juzhen.admin.entity.SysMenu;
 import com.juzhen.admin.entity.SysRoleMenu;
@@ -49,7 +50,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
-
     @Override
     public List<SysMenu> menuNavListForAdmin() {
         List<SysMenu> sysMenuList = getSysMenusReuslt(null);
@@ -63,8 +63,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> sysMenuList = getSysMenusReuslt(menuIdList);
         return sysMenuList;
     }
-
-
 
 
     @Override
@@ -83,8 +81,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Set<String> result = getPermissionsResult(sysMenuList);
         return result;
     }
-
-
 
 
     private Set<String> getPermissionsResult(List<SysMenu> sysMenuList) {
@@ -111,7 +107,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
 
-
     private List<SysMenu> getSysMenusReuslt(List<Long> o) {
         List<SysMenu> sysMenuList = getSysMenusFirst(o);
         log.info("sysMenuList={}" + sysMenuList);
@@ -124,10 +119,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
         return sysMenuList;
     }
+
     @Override
     public List<SysMenu> select() {
         List<SysMenu> sysMenuList = getSysMenusFirst(null);
-        log.info("sysMenuList={}" , sysMenuList);
+        log.info("sysMenuList={}", sysMenuList);
         List<SysMenu> sysMenus = new ArrayList<>();
         for (SysMenu sysMenu : sysMenuList) {
             QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
@@ -150,10 +146,34 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return sysMenuList1;
     }
 
+    @Override
+    public Boolean delete(Long id) {
 
-    /**2
+        checkDelete(id);
+        this.baseMapper.deleteById(id);
+        QueryWrapper<SysRoleMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        sysMenuQueryWrapper.eq("menu_id", id);
+        iSysRoleMenuService.remove(sysMenuQueryWrapper);
+        return true;
+    }
+
+    /**
+     * 校验是不是可以删除
+     * @param id
+     */
+    private void checkDelete(Long id) {
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        sysMenuQueryWrapper.eq("parent_id", id);
+        List<SysMenu> sysMenuList = this.baseMapper.selectList(sysMenuQueryWrapper);
+        Assert.isTrue(CollectionUtils.isNotEmpty(sysMenuList), "存在下级菜单不能直接删除");
+    }
+
+
+    /**
+     * 2
      * 获取 用户下有权限的所有的 菜单Id
-     * @param userId   $2y$12$U1lRLlwtplsJyOxrAXoBY.uHFdNifxdO8yajq524i42StZWAsrrbS
+     *
+     * @param userId $2y$12$U1lRLlwtplsJyOxrAXoBY.uHFdNifxdO8yajq524i42StZWAsrrbS
      * @return
      */
     private List<Long> getMenuIdListHasAuth(Long userId) {

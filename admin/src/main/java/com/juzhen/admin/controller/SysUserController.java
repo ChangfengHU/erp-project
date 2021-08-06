@@ -70,7 +70,7 @@ public class SysUserController {
     private HashMap<String, Object> buildToken(SysUser one) {
         String token = genToken();
         //3. 缓存用户
-        redisTool.set(token, one, 3600);
+//        redisTool.set(token, one, 3600);
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("token", token);
         stringStringHashMap.put("expire", 43200);
