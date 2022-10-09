@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juzhen.user.mapper.SysMenuMapper">
+
+
+<select id="menuListForAdmin" resultType="com.juzhen.user.entity.SysMenu">
+        SELECT s1.*,s2.name as parentName FROM sys_menu s1 LEFT JOIN sys_menu s2 ON s1.parent_id = s2.id
+
+        <if test="menuIds != null and menuIds.size>0 ">
+                where  s1.id in
+                <foreach collection="menuIds" item="menuId" open="(" close=")"
+                         separator=", " index="a">
+                        #{menuId}
+                </foreach>
+        </if>
+        order by s1.order_num ASC ;
+</select>
+
+
+
+</mapper>

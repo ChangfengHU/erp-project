@@ -1,0 +1,36 @@
+namespace java com.juzhen.user.api
+
+struct UserInfo{
+      1:i32 id,
+      2:string username,
+      3:string password,
+      4:string salt,
+      5:string email,
+      6:string realName,
+      7:string mobile,
+
+      /**
+      * 状态  0：禁用   1：正常
+      */
+      8:i32 status,
+      /**
+       * 类型 1 管理员  2 工厂 3销售
+       */
+      9:i32 kind,
+      10:i32 createUserId,
+      11:string  createTime
+}
+service UserService {
+
+    UserInfo getUserById(1:i32 id);
+
+    UserInfo getUserByName(1:string username);
+
+    void regiserUser(1:UserInfo userInfo);
+
+    UserInfo getTeacherById(1:i32 id);
+
+
+
+}
+

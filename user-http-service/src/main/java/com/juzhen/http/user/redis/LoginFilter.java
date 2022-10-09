@@ -1,14 +1,12 @@
-package com.juzhen.admin.redis;
+package com.juzhen.http.user.redis;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.juzhen.admin.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,14 +17,11 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
+@WebFilter(urlPatterns = "/user/*",filterName = "LoginFilter")
 public abstract class LoginFilter implements Filter {
 //    @Autowired
 //    private RedisUtils redisUtils;
-@Autowired
-private RedisTool redisTool;
-    private static Cache<String, SysUser> cache =
-            CacheBuilder.newBuilder().maximumSize(10000)
-            .expireAfterWrite(3, TimeUnit.MINUTES).build();
+
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("登录拦截------init");
     }
@@ -38,18 +33,7 @@ private RedisTool redisTool;
 
         String token = getString(request);
         log.info("登录拦截------token"+token);
-        SysUser userDTO = new SysUser();
-        if(StringUtils.isNotEmpty(token)) {
-            userDTO = cache.getIfPresent(token);
-            if(userDTO==null) {
-                userDTO = requestUserInfo(token);
-                if(userDTO!=null) {
-                    cache.put(token, userDTO);
-                }
-            }
-        }
-        userDTO = new SysUser();
-        userDTO.setId(1L);
+
         log.info("默认登录------");
 //        userDTO = (SysUser)redisTool.get(token);
 //        if(!StringUtils.isEquals("/hy-admin/sys/login",requestURI) && userDTO==null) {
@@ -62,7 +46,6 @@ private RedisTool redisTool;
 
 
 //        login(request, response, userDTO);
-        request.setAttribute("sysUser", userDTO);
         request.setAttribute("token", token);
         filterChain.doFilter(request, response);
     }
@@ -85,17 +68,9 @@ private RedisTool redisTool;
         return token;
     }
 
-    private SysUser requestUserInfo(String token) {
-//        SysUser o = (SysUser)redisUtils.get(token);
-//        return o;
-        SysUser sysUser = new SysUser();
-        sysUser.setId(1L);
-        return sysUser;
-    }
 
 //    protected abstract String userEdgeServiceAddr();
 
-    protected abstract void login(HttpServletRequest request, HttpServletResponse response, SysUser userDTO);
 
 
 

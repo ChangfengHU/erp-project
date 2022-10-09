@@ -1,9 +1,9 @@
-package com.juzhen.admin.redis;
+package com.juzhen.user.redis;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.juzhen.admin.entity.SysUser;
+import com.juzhen.user.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,8 +22,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class LoginFilter implements Filter {
 //    @Autowired
 //    private RedisUtils redisUtils;
-@Autowired
-private RedisTool redisTool;
+
     private static Cache<String, SysUser> cache =
             CacheBuilder.newBuilder().maximumSize(10000)
             .expireAfterWrite(3, TimeUnit.MINUTES).build();
@@ -48,19 +47,16 @@ private RedisTool redisTool;
                 }
             }
         }
-        userDTO = new SysUser();
-        userDTO.setId(1L);
-        log.info("默认登录------");
+
 //        userDTO = (SysUser)redisTool.get(token);
+        System.out.println("userDTO:"+userDTO);
+
 //        if(!StringUtils.isEquals("/hy-admin/sys/login",requestURI) && userDTO==null) {
 //            log.warn("未登录,登录拦截----");
 //            System.out.println("url"+requestURI);
 //            response.sendRedirect("http://www.mooc.com/user/login");
 //            return;
 //        }
-
-
-
 //        login(request, response, userDTO);
         request.setAttribute("sysUser", userDTO);
         request.setAttribute("token", token);

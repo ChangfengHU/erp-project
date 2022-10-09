@@ -6,6 +6,10 @@
     <modules>
         <module>common</module>
         <module>admin</module>
+        <module>message-thrift-service-api</module>
+        <module>user-thrift-service</module>
+        <module>user-thrift-service-api</module>
+        <module>user-http-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
