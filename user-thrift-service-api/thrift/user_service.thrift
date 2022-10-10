@@ -1,16 +1,15 @@
-namespace java com.juzhen.user.api
+namespace java com.juzhen.user.api.rpc
 
-struct UserInfo{
-      1:i32 id,
+struct UserRpcDTO{
+      1:i64 id,
       2:string username,
       3:string password,
       4:string salt,
       5:string email,
       6:string realName,
       7:string mobile,
-
       /**
-      * 状态  0：禁用   1：正常
+      * 状态  0：禁用   1：正常 人/服务  add/insert query/get modify/update remove/delete
       */
       8:i32 status,
       /**
@@ -20,17 +19,27 @@ struct UserInfo{
       10:i32 createUserId,
       11:string  createTime
 }
-service UserService {
-
-    UserInfo getUserById(1:i32 id);
-
-    UserInfo getUserByName(1:string username);
-
-    void regiserUser(1:UserInfo userInfo);
-
-    UserInfo getTeacherById(1:i32 id);
-
-
+service UserRpcService {
+    /**
+     * 根据id获取用户
+     */
+    UserRpcDTO getUserById(1:i64 id);
+    /**
+     * 根据名字获取用户
+     */
+    UserRpcDTO getUserByName(1:string username);
+    /**
+     * 插入用户
+     */
+    void insertUser(1:UserRpcDTO userInfo);
+    /**
+     * 修改用户
+     */
+    void updateUser(1:UserRpcDTO userInfo);
+    /**
+     * 删除用户
+     */
+    void deleteUser(1:i64 id);
 
 }
 

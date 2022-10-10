@@ -10,6 +10,8 @@
         <module>user-thrift-service</module>
         <module>user-thrift-service-api</module>
         <module>user-http-service</module>
+        <module>user-http-service-client</module>
+        <module>sale-dubbo-service-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

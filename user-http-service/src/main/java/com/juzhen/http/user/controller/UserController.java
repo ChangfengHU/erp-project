@@ -2,15 +2,15 @@ package com.juzhen.http.user.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.imooc.thrift.message.MessageService;
 import com.juzhen.http.user.redis.RedisClient;
 import com.juzhen.http.user.response.LoginResponse;
 import com.juzhen.http.user.response.Response;
 import com.juzhen.http.user.thrift.ServiceProvider;
+import com.juzhen.http.user.vo.UserInfoVO;
+import com.juzhen.thrift.message.MessageService;
+import com.juzhen.user.api.rpc.UserRpcDTO;
+import com.juzhen.user.api.rpc.UserRpcService;
 import com.vyibc.course.ICourseService;
-import com.vyibc.thrift.user.UserInfo;
-import com.vyibc.thrift.user.UserService;
-import com.vyibc.thrift.user.dto.UserDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.thrift.TException;
 import org.apache.tomcat.util.buf.HexUtils;
@@ -56,33 +56,33 @@ public class UserController {
         System.out.println("用户开始登录"+ JSON.toJSONString(userRequest));
         String password = userRequest.getPassword();
         String username = userRequest.getUsername();
-        redisClient.set("hcf",1212);
         //1. 验证用户名密码
-        UserInfo userInfo = null;
+        UserRpcDTO userRpcDTO = null;
         try {
-            UserService.Client userService = serviceProvider.getUserService();
-            userInfo = userService.getUserByName(username);
+            UserRpcService.Client userService = serviceProvider.getUserService();
+            userRpcDTO = userService.getUserByName(username);
         } catch (TException e) {
             e.printStackTrace();
             return Response.SERVICE_ERROR;
         }
-        if(userInfo==null) {
+        if(userRpcDTO==null) {
             return Response.USERNAME_EMPTY;
         }
         String s = md5(password);
         //数据库密码
         System.out.println("数据库密码:"+s);
-        if(!userInfo.getPassword().equalsIgnoreCase(md5(password))) {
+        if(!userRpcDTO.getPassword().equalsIgnoreCase(md5(password))) {
             return Response.USERNAME_PASSWORD_INVALID;
         }
-
         //2. 生成token
         String token = genToken();
-
+        System.out.println("登录token:"+token);
         //3. 缓存用户
-        redisClient.set(token, toDTO(userInfo), 3600);
-
-        return new LoginResponse(token);
+        UserInfoVO userInfoVO = toVO(userRpcDTO).setPassword(null);
+        redisClient.putCache(token,userInfoVO, 3600);
+        UserInfoVO o = redisClient.getCache(token,UserInfoVO.class);
+        System.out.println("获取redis:"+JSON.toJSONString(o));
+        return new LoginResponse(token,userInfoVO);
     }
 
     @RequestMapping(value = "/sendVerifyCode", method = { RequestMethod.POST,RequestMethod.GET })
@@ -142,14 +142,14 @@ public class UserController {
                 return Response.VERIFY_CODE_INVALID;
             }
         }
-        UserInfo userInfo = new UserInfo();
+        UserRpcDTO userInfo = new UserRpcDTO();
         userInfo.setUsername(username);
         userInfo.setPassword(md5(password));
         userInfo.setMobile(mobile);
         userInfo.setEmail(email);
 
         try {
-            serviceProvider.getUserService().regiserUser(userInfo);
+            serviceProvider.getUserService().insertUser(userInfo);
         } catch (TException e) {
             e.printStackTrace();
             return Response.exception(e);
@@ -160,12 +160,12 @@ public class UserController {
 
     @RequestMapping(value="/authentication", method =  { RequestMethod.POST,RequestMethod.GET })
     @ResponseBody
-    public UserDTO authentication(@RequestHeader("token") String token) {
+    public UserRpcDTO authentication(@RequestHeader("token") String token) {
         return redisClient.get(token);
     }
 
-    private UserDTO toDTO(UserInfo userInfo) {
-        UserDTO userDTO = new UserDTO();
+    private UserInfoVO toVO(UserRpcDTO userInfo) {
+        UserInfoVO userDTO = new UserInfoVO();
         BeanUtils.copyProperties(userInfo, userDTO);
         return userDTO;
     }

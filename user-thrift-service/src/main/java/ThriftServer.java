@@ -1,4 +1,4 @@
-import com.juzhen.user.api.UserService;
+import com.juzhen.user.api.rpc.UserRpcService;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;
@@ -22,12 +22,12 @@ public class ThriftServer {
     private int servicePort;
 
     @Autowired
-    private UserService.Iface userService;
+    private UserRpcService.Iface userService;
 
     @PostConstruct
     public void startThriftServer() {
 
-        TProcessor processor = new UserService.Processor<>(userService);
+        TProcessor processor = new UserRpcService.Processor<>(userService);
 
         TNonblockingServerSocket socket = null;
         try {

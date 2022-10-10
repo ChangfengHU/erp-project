@@ -12,10 +12,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.juzhen.http.user"})//扫描接口
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @ServletComponentScan
-public class HttpUserApplication {
+public class UserHttpApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HttpUserApplication.class, args);
+        SpringApplication.run(UserHttpApplication.class, args);
     }
 
 }

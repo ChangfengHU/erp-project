@@ -1,7 +1,7 @@
 package com.juzhen.http.user.thrift;
 
-import com.imooc.thrift.message.MessageService;
-import com.vyibc.thrift.user.UserService;
+import com.juzhen.thrift.message.MessageService;
+import com.juzhen.user.api.rpc.UserRpcService;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
@@ -34,7 +34,7 @@ public class ServiceProvider {
         MESSAGE
     }
 
-    public UserService.Client getUserService() {
+    public UserRpcService.Client getUserService() {
 
         return getService(serverIp, serverPort, ServiceType.USER);
     }
@@ -58,7 +58,7 @@ public class ServiceProvider {
         TServiceClient result = null;
         switch (serviceType) {
             case USER:
-                result = new UserService.Client(protocol);
+                result = new UserRpcService.Client(protocol);
                 break;
             case MESSAGE:
                 result = new MessageService.Client(protocol);

@@ -1,14 +1,22 @@
 package com.juzhen.user.service.impl;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.juzhen.common.utils.MD5Utils;
+import com.juzhen.user.api.rpc.UserRpcDTO;
+import com.juzhen.user.api.rpc.UserRpcService;
 import com.juzhen.user.entity.SysUser;
 import com.juzhen.user.mapper.SysUserMapper;
+import com.juzhen.user.redis.RedisClient;
 import com.juzhen.user.redis.TryCatch;
 import com.juzhen.user.service.ISysUserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TException;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,8 +28,10 @@ import org.springframework.stereotype.Service;
  * @since 2021-05-26
  */
 @Service("sysUserService")
-public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
-
+@Slf4j
+public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService , UserRpcService.Iface{
+    @Autowired
+    private RedisClient redisClient;
     @Override
     public boolean queryUsernameIsExist(String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
@@ -51,4 +61,42 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
         Assert.isTrue(StringUtils.isEquals(md5Str, one.getPassword()),"用户名或密码错误");
         Assert.isTrue(one.getStatus() == 1,"该用户禁止登陆");
     }
+
+
+
+    @Override
+    public UserRpcDTO getUserById(long id) throws TException {
+        return null;
+    }
+
+    @Override
+    public UserRpcDTO getUserByName(String username) throws TException {
+        log.info("接收到请求={}",username);
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
+        wrapper.eq("username", username);
+        //根据条件查询一条数据，如果结果超过一条会报错
+        SysUser sysUser = this.baseMapper.selectOne(wrapper);
+        log.info("查询={}", JSON.toJSONString(sysUser));
+        redisClient.putCache(sysUser.getId()+"",sysUser,3600);
+        UserRpcDTO userInfo = new UserRpcDTO();
+        BeanUtils.copyProperties(sysUser,userInfo);
+        log.info("返回={}", JSON.toJSONString(userInfo));
+        return userInfo;
+    }
+
+    @Override
+    public void insertUser(UserRpcDTO userInfo) throws TException {
+
+    }
+
+    @Override
+    public void updateUser(UserRpcDTO userInfo) throws TException {
+
+    }
+
+    @Override
+    public void deleteUser(long id) throws TException {
+
+    }
+
 }
