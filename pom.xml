@@ -12,6 +12,7 @@
         <module>user-http-service</module>
         <module>user-http-service-client</module>
         <module>sale-dubbo-service-api</module>
+        <module>sale-dubbo-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
