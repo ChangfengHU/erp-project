@@ -1,6 +1,5 @@
 package com.juzhen.user.service.impl;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
@@ -58,7 +57,7 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Assert.isTrue(StringUtils.isEquals(md5Str, one.getPassword()),"用户名或密码错误");
+        Assert.isTrue(md5Str.equals(one.getPassword()),"用户名或密码错误");
         Assert.isTrue(one.getStatus() == 1,"该用户禁止登陆");
     }
 

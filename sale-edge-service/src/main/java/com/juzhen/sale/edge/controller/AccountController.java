@@ -1,7 +1,9 @@
 package com.juzhen.sale.edge.controller;
 
 
+import com.juzhen.api.sale.dto.CustomerRpcDTO;
 import com.juzhen.api.sale.service.BalanceService;
+import com.juzhen.api.sale.service.CustomerRpcService;
 import com.juzhen.api.user.UserRpcDTO;
 import com.juzhen.api.user.UserRpcService;
 import com.juzhen.sale.edge.vo.SaleVo;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,18 +34,18 @@ public class AccountController {
 
     @Reference
     private BalanceService balanceService;
+    @Reference
+    private CustomerRpcService customerRpcService;
 
     @RequestMapping("/list")
     public SaleVo getUser(@RequestParam Integer id) throws TException {
         UserRpcService.Client userService = serviceProvider.getUserService();
         UserRpcDTO hcf = userService.getUserByName("hcf");
-        System.out.println("远程调用thrift接口={}"+hcf);
         SaleVo saleVo = new SaleVo();
-        if(id != null && userMap.containsKey(id)) {
-            User user = userMap.get(id);
-            user.setBalance(balanceService.getBalance(id));
-            saleVo.setUser(user);
-        }
+        System.out.println("远程调用thrift接口={}"+hcf);
+        List<CustomerRpcDTO> customerRpcDTOS = customerRpcService.queryCustomerList();
+        System.out.println("远程调用thrift接口={}"+customerRpcService);
+        saleVo.setCustomerRpcDTOS(customerRpcDTOS);
         saleVo.setRpcDTO(hcf);
         return saleVo;
     }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.juzhen.api.sale.dto.Balance;
 import com.juzhen.api.sale.dto.CustomerRpcDTO;
 import com.juzhen.api.sale.service.BalanceService;
+import com.juzhen.api.sale.service.CustomerRpcService;
 import com.juzhen.sale.entity.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Service(protocol = "dubbo")
 @Slf4j
-public class InMemoryBalanceService implements BalanceService {
+public class CustomerRpcServiceImpl implements CustomerRpcService {
 
     final static Map<Integer, Balance> balanceMap = new HashMap() {{
         put(1, new Balance(1, 10, 1000));
@@ -29,8 +30,8 @@ public class InMemoryBalanceService implements BalanceService {
     ICustomerService iCustomerService;
 
     @Override
-    public Balance getBalance(Integer id) {
-        log.info("getBalance 接收到请求");
+    public List<CustomerRpcDTO> queryCustomerList() {
+        log.info("queryCustomerList 接收到请求");
         List<Customer> list = iCustomerService.list();
         List<CustomerRpcDTO> customerDTOS = new ArrayList<>();
         for (Customer customer : list) {
@@ -39,10 +40,6 @@ public class InMemoryBalanceService implements BalanceService {
             customerDTOS.add(customerDTO);
         }
         log.info("getBalance 接收到请求={}", JSON.toJSONString(customerDTOS));
-        if(id != null && balanceMap.containsKey(id)) {
-            return balanceMap.get(id);
-        }
-
-        return new Balance(0, 0, 0, "不存在");
+        return customerDTOS;
     }
 }

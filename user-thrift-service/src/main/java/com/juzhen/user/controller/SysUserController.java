@@ -1,8 +1,8 @@
 package com.juzhen.user.controller;
 
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.juzhen.common.result.ErpResult;
 import com.juzhen.user.entity.SysUser;
 import com.juzhen.user.mapper.SysUserMapper;

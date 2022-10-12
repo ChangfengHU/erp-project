@@ -1,8 +1,8 @@
 package com.juzhen.user.service.impl;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.juzhen.user.entity.SysMenu;
 import com.juzhen.user.entity.SysRoleMenu;

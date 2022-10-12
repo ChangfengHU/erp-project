@@ -1,6 +1,6 @@
 package com.juzhen.user.redis;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.juzhen.user.entity.SysUser;
@@ -66,7 +66,7 @@ public abstract class LoginFilter implements Filter {
     private String getString(HttpServletRequest request) {
         String token = request.getParameter("token");
         log.info("登录拦截------token"+token);
-        if(StringUtils.isBlank(token)) {
+        if(StringUtils.isEmpty(token)) {
             String header = request.getHeader("token");
             token = header;
 //            Cookie[] cookies = request.getCookies();
@@ -97,5 +97,8 @@ public abstract class LoginFilter implements Filter {
 
     public void destroy() {
 
+    }
+
+    private class StringUtil {
     }
 }

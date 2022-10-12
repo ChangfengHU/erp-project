@@ -1,6 +1,6 @@
 package com.juzhen.user.filter;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.juzhen.user.entity.SysUser;
@@ -36,7 +36,7 @@ public abstract class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)servletResponse;
 
         String token = request.getParameter("token");
-        if(StringUtils.isBlank(token)) {
+        if(StringUtils.isEmpty(token)) {
             Cookie[] cookies = request.getCookies();
             if(cookies!=null) {
                 for(Cookie c : cookies) {

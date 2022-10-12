@@ -2,8 +2,7 @@ package com.juzhen.common.exception;
 
 import com.alibaba.fastjson.JSON;
 import com.juzhen.common.result.ErpResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +13,6 @@ import java.io.StringWriter;
  */
 public class ExceptionUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExceptionUtil.class);
 
     private ExceptionUtil() {
     }
@@ -39,7 +37,6 @@ public class ExceptionUtil {
                 try {
                     sw.close();
                 } catch (IOException e1) {
-                    logger.info(e1.getMessage());
                 }
             }
             if (pw != null) {
