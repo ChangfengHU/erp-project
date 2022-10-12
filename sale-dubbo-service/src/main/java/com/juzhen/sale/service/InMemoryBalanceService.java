@@ -1,5 +1,7 @@
 package com.juzhen.sale.service;
 
+import com.juzhen.api.sale.dto.Balance;
+import com.juzhen.api.sale.service.BalanceService;
 import org.apache.dubbo.config.annotation.Service;
 
 import java.util.HashMap;

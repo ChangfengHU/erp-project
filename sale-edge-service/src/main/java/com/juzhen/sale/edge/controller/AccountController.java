@@ -1,8 +1,8 @@
 package com.juzhen.sale.edge.controller;
 
 
+import com.juzhen.api.sale.service.BalanceService;
 import com.juzhen.sale.edge.vo.SaleVo;
-import com.juzhen.sale.service.BalanceService;
 import com.juzhen.sale.service.User;
 import com.juzhen.sale.edge.thrift.ServiceProvider;
 import com.juzhen.sale.edge.thrift.UserRpcDTO;

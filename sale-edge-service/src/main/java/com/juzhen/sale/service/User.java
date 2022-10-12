@@ -1,5 +1,7 @@
 package com.juzhen.sale.service;
 
+import com.juzhen.api.sale.dto.Balance;
+
 public class User {
 
     private int id;

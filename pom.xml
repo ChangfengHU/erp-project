@@ -14,6 +14,7 @@
         <module>sale-dubbo-service-api</module>
         <module>sale-dubbo-service</module>
         <module>sale-edge-service</module>
+        <module>erp-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

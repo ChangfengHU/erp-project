@@ -1,4 +1,4 @@
-package com.juzhen.sale.service;
+package com.juzhen.api.sale.dto;
 
 import java.io.Serializable;
 
