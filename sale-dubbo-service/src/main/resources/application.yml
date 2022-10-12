@@ -4,7 +4,7 @@ spring:
 
 dubbo:
   scan:
-    base-packages: com.github.autfish.dubbo.service
+    base-packages: com.juzhen.sale.service
   protocols:
     dubbo:
       name: dubbo

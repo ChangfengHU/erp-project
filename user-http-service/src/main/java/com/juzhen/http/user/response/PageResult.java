@@ -1,8 +1,8 @@
 package com.juzhen.http.user.response;
 
 
-import groovy.transform.ToString;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
