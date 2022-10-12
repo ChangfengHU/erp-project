@@ -1,5 +1,7 @@
 package com.juzhen.sale.edge.thrift;
 
+import com.juzhen.api.message.MessageService;
+import com.juzhen.api.user.UserRpcService;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;

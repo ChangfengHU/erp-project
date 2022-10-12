@@ -28,17 +28,6 @@
 
         <dependency>
             <groupId>com.juzhen</groupId>
-            <artifactId>message-thrift-service-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.juzhen</groupId>
-            <artifactId>user-thrift-service-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.juzhen</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -58,8 +47,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.47</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.juzhen</groupId>
+            <artifactId>erp-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

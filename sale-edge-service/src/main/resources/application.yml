@@ -10,7 +10,7 @@ dubbo:
     qos:
       enable: false
 server:
-  port: 8085
+  port: 8082
 
 provider:
   application:

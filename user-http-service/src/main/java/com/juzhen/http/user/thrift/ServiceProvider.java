@@ -1,7 +1,7 @@
 package com.juzhen.http.user.thrift;
 
-import com.juzhen.thrift.message.MessageService;
-import com.juzhen.user.api.rpc.UserRpcService;
+import com.juzhen.api.message.MessageService;
+import com.juzhen.api.user.UserRpcService;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;

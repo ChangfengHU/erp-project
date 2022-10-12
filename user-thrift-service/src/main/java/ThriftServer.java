@@ -1,4 +1,4 @@
-import com.juzhen.user.api.rpc.UserRpcService;
+import com.juzhen.api.user.UserRpcService;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;

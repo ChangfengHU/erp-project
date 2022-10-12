@@ -1,16 +1,14 @@
 package com.juzhen.http.user.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.juzhen.api.message.MessageService;
+import com.juzhen.api.user.UserRpcDTO;
+import com.juzhen.api.user.UserRpcService;
 import com.juzhen.http.user.redis.RedisClient;
 import com.juzhen.http.user.response.LoginResponse;
 import com.juzhen.http.user.response.Response;
 import com.juzhen.http.user.thrift.ServiceProvider;
 import com.juzhen.http.user.vo.UserInfoVO;
-import com.juzhen.thrift.message.MessageService;
-import com.juzhen.user.api.rpc.UserRpcDTO;
-import com.juzhen.user.api.rpc.UserRpcService;
-import com.vyibc.course.ICourseService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.thrift.TException;
 import org.apache.tomcat.util.buf.HexUtils;
@@ -32,8 +30,6 @@ public class UserController {
     @Autowired
     private ServiceProvider serviceProvider;
 
-    @Reference
-    private ICourseService iCourseService;
 
     @Autowired
     private RedisClient redisClient;

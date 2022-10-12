@@ -2,11 +2,11 @@ package com.juzhen.sale.edge.controller;
 
 
 import com.juzhen.api.sale.service.BalanceService;
+import com.juzhen.api.user.UserRpcDTO;
+import com.juzhen.api.user.UserRpcService;
 import com.juzhen.sale.edge.vo.SaleVo;
 import com.juzhen.sale.service.User;
 import com.juzhen.sale.edge.thrift.ServiceProvider;
-import com.juzhen.sale.edge.thrift.UserRpcDTO;
-import com.juzhen.sale.edge.thrift.UserRpcService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("sale/customer")
 public class AccountController {
     @Autowired
     private ServiceProvider serviceProvider;
@@ -31,7 +32,7 @@ public class AccountController {
     @Reference
     private BalanceService balanceService;
 
-    @RequestMapping("/acc/user")
+    @RequestMapping("/list")
     public SaleVo getUser(@RequestParam Integer id) throws TException {
         UserRpcService.Client userService = serviceProvider.getUserService();
         UserRpcDTO hcf = userService.getUserByName("hcf");
