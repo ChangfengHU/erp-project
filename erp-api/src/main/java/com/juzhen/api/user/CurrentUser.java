@@ -1,31 +1,20 @@
-package com.juzhen.user.entity;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+package com.juzhen.api.user;
+
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
-
-/**
- * <p>
- * 系统用户
- * </p>
- *
- * @author huchangfeng
- * @since 2021-05-26
- */
+@ToString
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-public class SysUser extends Model<SysUser> implements Serializable {
-
+public class CurrentUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String username;
@@ -60,6 +49,4 @@ public class SysUser extends Model<SysUser> implements Serializable {
      */
 
     private Date createTime;
-
-
 }

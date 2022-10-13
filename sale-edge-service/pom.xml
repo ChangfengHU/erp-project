@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.juzhen</groupId>
-    <artifactId>sale-edge-dubbo-service</artifactId>
+    <artifactId>sale-edge-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>account-dubbo-service</name>
+    <name>sale-edge-service</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

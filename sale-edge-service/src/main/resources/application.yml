@@ -1,6 +1,6 @@
 spring:
   application:
-    name: account-dubbo-service
+    name: sale-edge-service
 dubbo:
   registry:
     address: spring-cloud://localhost
@@ -24,3 +24,9 @@ thrift:
   user:
     ip: 127.0.0.1
     port: 7911
+
+
+user:
+  edge:
+    service:
+      addr: 127.0.0.1:8081

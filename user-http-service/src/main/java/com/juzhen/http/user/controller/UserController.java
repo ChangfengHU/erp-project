@@ -2,6 +2,7 @@ package com.juzhen.http.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.juzhen.api.message.MessageService;
+import com.juzhen.api.user.CurrentUser;
 import com.juzhen.api.user.UserRpcDTO;
 import com.juzhen.api.user.UserRpcService;
 import com.juzhen.http.user.redis.RedisClient;
@@ -9,6 +10,7 @@ import com.juzhen.http.user.response.LoginResponse;
 import com.juzhen.http.user.response.Response;
 import com.juzhen.http.user.thrift.ServiceProvider;
 import com.juzhen.http.user.vo.UserInfoVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.thrift.TException;
 import org.apache.tomcat.util.buf.HexUtils;
@@ -25,6 +27,7 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -54,6 +57,12 @@ public class UserController {
         String username = userRequest.getUsername();
         //1. 验证用户名密码
         UserRpcDTO userRpcDTO = null;
+//        MessageService.Client messasgeService = serviceProvider.getMessasgeService();
+//        try {
+//            messasgeService.sendEmailMessage("18606530927", "12122");
+//        } catch (TException e) {
+//            e.printStackTrace();
+//        }
         try {
             UserRpcService.Client userService = serviceProvider.getUserService();
             userRpcDTO = userService.getUserByName(username);
@@ -156,8 +165,10 @@ public class UserController {
 
     @RequestMapping(value="/authentication", method =  { RequestMethod.POST,RequestMethod.GET })
     @ResponseBody
-    public UserRpcDTO authentication(@RequestHeader("token") String token) {
-        return redisClient.get(token);
+    public CurrentUser authentication(@RequestHeader("token") String token) {
+        CurrentUser cache = redisClient.getCache(token, CurrentUser.class);
+        log.info("获取缓存信息 cache={}",cache);
+        return cache;
     }
 
     private UserInfoVO toVO(UserRpcDTO userInfo) {
