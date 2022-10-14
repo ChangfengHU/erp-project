@@ -3,13 +3,14 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.juzhen.api.user;
+package com.juzhen.user.client.dto;
 
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
+
 @ToString
 @Data
 public class CurrentUser implements Serializable {

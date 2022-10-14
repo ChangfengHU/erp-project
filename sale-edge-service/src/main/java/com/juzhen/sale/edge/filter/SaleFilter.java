@@ -1,8 +1,8 @@
 package com.juzhen.sale.edge.filter;
 
-import com.juzhen.api.filter.LoginFilter;
-import com.juzhen.api.session.SessionManager;
-import com.juzhen.api.user.CurrentUser;
+import com.juzhen.user.client.dto.CurrentUser;
+import com.juzhen.user.client.filter.LoginFilter;
+import com.juzhen.user.client.session.SessionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class SaleFilter extends LoginFilter {
     @Override
     protected void login(HttpServletRequest request, HttpServletResponse response, CurrentUser currentUser) {
         log.info("login----={}",currentUser);
-//        SessionManager.setSession(currentUser);
+        SessionManager.setSession(currentUser);
         request.setAttribute("currentUser", currentUser);
     }
 }

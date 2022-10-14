@@ -1,7 +1,7 @@
 package com.juzhen.sale.edge.resolver;
 
-import com.juzhen.api.session.SessionManager;
-import com.juzhen.api.user.CurrentUser;
+import com.juzhen.user.client.dto.CurrentUser;
+import com.juzhen.user.client.session.SessionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;

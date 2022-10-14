@@ -1,13 +1,13 @@
 package com.juzhen.sale.edge.controller;
 
 
-import com.juzhen.api.user.CurrentUser;
 import com.juzhen.api.user.UserRpcDTO;
 import com.juzhen.api.user.UserRpcService;
 import com.juzhen.sale.edge.resolver.Authlogin;
 import com.juzhen.sale.edge.thrift.ServiceProvider;
 import com.juzhen.sale.edge.vo.SaleVo;
 import com.juzhen.sale.service.User;
+import com.juzhen.user.client.dto.CurrentUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;

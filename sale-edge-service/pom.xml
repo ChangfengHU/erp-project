@@ -65,6 +65,11 @@
             <version>0.0.1-SNAPSHOT</version>
             <artifactId>erp-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.juzhen</groupId>
+            <artifactId>user-http-service-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

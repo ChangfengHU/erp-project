@@ -9,9 +9,9 @@
         <!--<version>2.1.5.RELEASE</version>-->
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>com.juzhen</groupId>
     <artifactId>api-gateway-zuul</artifactId>
-
+    <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

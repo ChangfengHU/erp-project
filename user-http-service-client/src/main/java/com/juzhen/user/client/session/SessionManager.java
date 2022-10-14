@@ -1,8 +1,8 @@
-package com.juzhen.api.session;
+package com.juzhen.user.client.session;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.juzhen.api.user.CurrentUser;
+import com.juzhen.user.client.dto.CurrentUser;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.concurrent.TimeUnit;

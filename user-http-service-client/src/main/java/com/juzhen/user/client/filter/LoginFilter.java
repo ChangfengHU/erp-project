@@ -1,10 +1,8 @@
-package com.juzhen.api.filter;
+package com.juzhen.user.client.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.juzhen.api.session.SessionManager;
-import com.juzhen.api.user.CurrentUser;
+import com.juzhen.user.client.dto.CurrentUser;
+import com.juzhen.user.client.session.SessionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -18,12 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Michael on 2017/10/31.
  */
-@Slf4j
 public abstract class LoginFilter implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,7 +27,6 @@ public abstract class LoginFilter implements Filter {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("过滤器---start----");
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
         String token = request.getHeader("token");
@@ -48,7 +43,6 @@ public abstract class LoginFilter implements Filter {
 
         CurrentUser currentUser = null;
         if(token !=null && !token.equals("")) {
-            log.info("获取token={}",token);
             currentUser = SessionManager.userCache.getIfPresent(token);
             if(currentUser ==null) {
                 currentUser = requestUserInfo(token);
@@ -92,9 +86,7 @@ public abstract class LoginFilter implements Filter {
             while((len = inputStream.read(temp))>0) {
                 sb.append(new String(temp,0,len));
             }
-            log.info("获取用户信息str={}",JSON.toJSONString(sb));
             CurrentUser currentUser = JSON.parseObject(sb.toString(), CurrentUser.class);
-            log.info("获取用户信息对象={}",JSON.toJSONString(currentUser));
 //            UserDTO userDTO = new ObjectMapper().readValue(sb.toString(), UserDTO.class);
             return currentUser;
         } catch (IOException e) {

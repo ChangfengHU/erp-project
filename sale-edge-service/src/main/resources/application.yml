@@ -19,14 +19,14 @@ provider:
 
 thrift:
   message:
-    ip: 127.0.0.1
+    ip: message-service
     port: 9090
   user:
-    ip: 127.0.0.1
+    ip: user-service
     port: 7911
 
 
 user:
   edge:
     service:
-      addr: 127.0.0.1:8081
+      addr: user-http-service:8081

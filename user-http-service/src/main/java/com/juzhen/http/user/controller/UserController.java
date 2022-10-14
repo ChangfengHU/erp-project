@@ -2,7 +2,6 @@ package com.juzhen.http.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.juzhen.api.message.MessageService;
-import com.juzhen.api.user.CurrentUser;
 import com.juzhen.api.user.UserRpcDTO;
 import com.juzhen.api.user.UserRpcService;
 import com.juzhen.http.user.redis.RedisClient;
@@ -10,6 +9,7 @@ import com.juzhen.http.user.response.LoginResponse;
 import com.juzhen.http.user.response.Response;
 import com.juzhen.http.user.thrift.ServiceProvider;
 import com.juzhen.http.user.vo.UserInfoVO;
+import com.juzhen.user.client.dto.CurrentUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.thrift.TException;
