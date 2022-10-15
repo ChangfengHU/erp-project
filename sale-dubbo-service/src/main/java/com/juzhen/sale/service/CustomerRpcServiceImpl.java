@@ -31,7 +31,7 @@ public class CustomerRpcServiceImpl implements CustomerRpcService {
 
     @Override
     public List<CustomerRpcDTO> queryCustomerList() {
-        log.info("queryCustomerList 接收到请求");
+        log.info("queryCustomerList 接收到请求1111111111111111");
         List<Customer> list = iCustomerService.list();
         List<CustomerRpcDTO> customerDTOS = new ArrayList<>();
         for (Customer customer : list) {
@@ -39,7 +39,7 @@ public class CustomerRpcServiceImpl implements CustomerRpcService {
             BeanUtils.copyProperties(customer,customerDTO);
             customerDTOS.add(customerDTO);
         }
-        log.info("getBalance 接收到请求={}", JSON.toJSONString(customerDTOS));
+        log.info("queryCustomerList 接收到请求={}", JSON.toJSONString(customerDTOS));
         return customerDTOS;
     }
 }

@@ -6,41 +6,41 @@ version: '3'
 #      name: imooc-network
 
 services:
-  message-service:
-    image: message-service:latest
+#  message-service:
+#    image: message-service:latest
 
   user-service:
-    image: user-service:latest
+    image: 127.0.0.1:81/erp-service/user-service:1.0.5
     command:
-    - "--mysql.address=192.168.57.1"
-    - "--redis.address=192.168.57.1"
+    - "--mysql.address=42.193.7.166"
+    - "--redis.address=42.192.76.49"
   user-http-service:
-    image: user-http-service:latest
+    image: 127.0.0.1:81/erp-service/user-http-service:latest
     links:
     - user-service
-    - message-service
+#    - message-service
     command:
-    - "--redis.address=192.168.57.1"
+    - "--redis.address=42.192.76.49"
 
-
-  sale-service:
-    image: sale-service:latest
-    links:
-    - user-service
-    command:
-    - "--mysql.address=192.168.57.1"
-    - "--redis.address=192.168.57.1"
-    - "--nacos.address=192.168.57.1"
+#
+#  sale-service:
+#    image: 127.0.0.1:81/erp-service/sale-service:latest
+#    links:
+#    - user-service
+#    command:
+#    - "--mysql.address=42.193.7.166"
+#    - "--redis.address=42.192.76.49"
+#    - "--nacos.address=42.192.76.49"
 
   sale-edge-service:
-    image: sale-edge-service:latest
+    image: 127.0.0.1:81/erp-service/sale-edge-service:latest
     links:
     - user-http-service
-    - sale-service
+#    - sale-service
     command:
-    - "--nacos.address=192.168.57.1"
+    - "--nacos.address=42.192.76.49"
   api-gateway-zuul:
-    image: api-gateway-zuul:latest
+    image: 127.0.0.1:81/erp-service/api-gateway-zuul:latest
     links:
     - sale-edge-service
     - user-http-service

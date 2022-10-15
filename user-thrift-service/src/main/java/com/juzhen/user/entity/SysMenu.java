@@ -27,7 +27,7 @@ public class SysMenu extends Model<SysMenu> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "menu_id", type = IdType.AUTO)
     private Long id;
 
     /**

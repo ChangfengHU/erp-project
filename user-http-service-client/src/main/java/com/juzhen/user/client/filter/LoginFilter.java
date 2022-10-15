@@ -45,7 +45,12 @@ public abstract class LoginFilter implements Filter {
         if(token !=null && !token.equals("")) {
             currentUser = SessionManager.userCache.getIfPresent(token);
             if(currentUser ==null) {
-                currentUser = requestUserInfo(token);
+                try {
+                    currentUser = requestUserInfo(token);
+                } catch (Exception e) {
+                    System.out.println("登录信息模块没有获取用户信息");
+                    e.printStackTrace();
+                }
                 if(currentUser !=null) {
                     SessionManager.userCache.put(token, currentUser);
                     SessionManager.setSession(currentUser);

@@ -1,6 +1,5 @@
 #!/usr/env bash
 mvn clean package
 docker build -t  sale-edge-service:latest .
-#docker tag user-service:latest 47.97.167.185:9999/article-service/user-service:latest
-#docker push 47.97.167.185:9999/article-service/user-service:latest
-#docker run -it user-service:latest --mysql.address=192.168.57.1
+docker tag sale-edge-service:latest 42.192.76.49:81/erp-service/sale-edge-service:latest
+docker push 42.192.76.49:81/erp-service/sale-edge-service:latest

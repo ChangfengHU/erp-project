@@ -20,3 +20,5 @@ eureka:
 ribbon:
   nacos:
     enabled: false
+nacos:
+  address: 42.192.76.49

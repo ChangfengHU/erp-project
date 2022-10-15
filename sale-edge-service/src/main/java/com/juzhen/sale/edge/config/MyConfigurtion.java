@@ -14,10 +14,11 @@ public class MyConfigurtion {
      *
      * @return
      */
-//    @Bean
-    public ApplicationConfig consumerConfig() {
-        ApplicationConfig consumerConfig = new ApplicationConfig();
-        log.info("消费者配置.....");
+    @Bean
+    public com.alibaba.dubbo.config.ConsumerConfig consumerConfig() {
+        com.alibaba.dubbo.config.ConsumerConfig consumerConfig = new com.alibaba.dubbo.config.ConsumerConfig();
+        consumerConfig.setCheck(false);
+        consumerConfig.setTimeout(40000);
         return consumerConfig;
     }
 

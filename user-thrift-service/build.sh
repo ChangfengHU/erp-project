@@ -1,6 +1,5 @@
 #!/usr/env bash
 mvn clean package
 docker build -t  user-service:latest .
-#docker tag user-service:latest 47.97.167.185:9999/article-service/user-service:latest
-#docker push 47.97.167.185:9999/article-service/user-service:latest
-#docker run -it user-service:latest --mysql.address=192.168.57.1
+docker tag user-service:latest 42.192.76.49:81/erp-service/user-service:1.0.5
+docker push 42.192.76.49:81/erp-service/user-service:1.0.5

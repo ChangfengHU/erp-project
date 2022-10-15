@@ -1,6 +1,8 @@
 package com.juzhen.sale.edge.controller;
 
 
+import com.juzhen.api.sale.dto.CustomerRpcDTO;
+import com.juzhen.api.sale.service.CustomerRpcService;
 import com.juzhen.api.user.UserRpcDTO;
 import com.juzhen.api.user.UserRpcService;
 import com.juzhen.sale.edge.resolver.Authlogin;
@@ -9,11 +11,13 @@ import com.juzhen.sale.edge.vo.SaleVo;
 import com.juzhen.sale.service.User;
 import com.juzhen.user.client.dto.CurrentUser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,9 +33,9 @@ public class AccountController {
         }
     };
 
-//
-//    @Reference
-//    private CustomerRpcService customerRpcService;
+
+    @Reference
+    private CustomerRpcService customerRpcService;
 
     @RequestMapping("/list")
     public SaleVo getUser(@RequestParam Integer id , @Authlogin CurrentUser currentUser) throws TException {
@@ -39,11 +43,20 @@ public class AccountController {
         UserRpcService.Client userService = serviceProvider.getUserService();
         UserRpcDTO hcf = userService.getUserByName("hcf");
         SaleVo saleVo = new SaleVo();
-        System.out.println("远程调用thrift接口={}"+hcf);
+        System.out.println("远程调用UserRpcDTO thrift接口={}"+hcf);
 //        List<CustomerRpcDTO> customerRpcDTOS = customerRpcService.queryCustomerList();
 //        System.out.println("远程调用thrift接口={}"+customerRpcService);
 //        saleVo.setCustomerRpcDTOS(customerRpcDTOS);
         saleVo.setRpcDTO(hcf);
+        return saleVo;
+    }
+    @RequestMapping("/getCustomer")
+    public SaleVo getCustomer(@RequestParam Integer id , CurrentUser currentUser) throws TException {
+        log.info("getCustomer id={},user={}",id,currentUser);
+        SaleVo saleVo = new SaleVo();
+        List<CustomerRpcDTO> customerRpcDTOS = customerRpcService.queryCustomerList();
+        System.out.println("getCustomer 返回={}"+customerRpcService);
+        saleVo.setCustomerRpcDTOS(customerRpcDTOS);
         return saleVo;
     }
 }

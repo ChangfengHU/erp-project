@@ -11,3 +11,6 @@ spring:
         enabled: true
         register-enabled: true
         server-addr: ${nacos.address}:8848
+
+nacos:
+  address: 42.192.76.49
