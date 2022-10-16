@@ -1,16 +1,16 @@
-#spring:
-#  application:
-#    name: sale-dubbo-service
-#  main:
-#    allow-bean-definition-overriding: true
-#  cloud:
-#    nacos:
-#      config:
-#        server-addr: ${nacos.address}:8848
-#      discovery:
-#        enabled: true
-#        register-enabled: true
-#        server-addr: ${nacos.address}:8848
-#
-#nacos:
-#  address: 42.192.76.49
+spring:
+  application:
+    name: sale-dubbo-service
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.address}:8848
+      discovery:
+        enabled: true
+        register-enabled: true
+        server-addr: ${nacos.address}:8848
+
+nacos:
+  address: 42.192.76.49
