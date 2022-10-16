@@ -10,37 +10,37 @@ services:
 #    image: message-service:latest
 
   user-service:
-    image: 127.0.0.1:81/erp-service/user-service:1.0.5
+    image: user-service:latest
     command:
-    - "--mysql.address=42.193.7.166"
-    - "--redis.address=42.192.76.49"
+    - "--mysql.address=192.168.57.1"
+    - "--redis.address=192.168.57.1"
   user-http-service:
-    image: 127.0.0.1:81/erp-service/user-http-service:latest
+    image: user-http-service:latest
     links:
     - user-service
 #    - message-service
     command:
-    - "--redis.address=42.192.76.49"
+    - "--redis.address=192.168.57.1"
 
 #
 #  sale-service:
-#    image: 127.0.0.1:81/erp-service/sale-service:latest
+#    image: sale-service:latest
 #    links:
 #    - user-service
 #    command:
-#    - "--mysql.address=42.193.7.166"
-#    - "--redis.address=42.192.76.49"
-#    - "--nacos.address=42.192.76.49"
+#    - "--mysql.address=192.168.57.1"
+#    - "--redis.address=192.168.57.1"
+#    - "--nacos.address=192.168.57.1"
 
   sale-edge-service:
-    image: 127.0.0.1:81/erp-service/sale-edge-service:latest
+    image: sale-edge-service:latest
     links:
     - user-http-service
 #    - sale-service
     command:
-    - "--nacos.address=42.192.76.49"
+    - "--nacos.address=192.168.57.1"
   api-gateway-zuul:
-    image: 127.0.0.1:81/erp-service/api-gateway-zuul:latest
+    image: api-gateway-zuul:latest
     links:
     - sale-edge-service
     - user-http-service

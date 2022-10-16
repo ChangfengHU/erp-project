@@ -2,6 +2,10 @@ package com.juzhen.http.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.juzhen.api.message.MessageService;
+import com.juzhen.api.sale.customer.CustomerRpcDTO;
+import com.juzhen.api.sale.customer.CustomerRpcService;
+import com.juzhen.api.sale.test.TestRpcDTO;
+import com.juzhen.api.sale.test.TestRpcService;
 import com.juzhen.api.user.UserRpcDTO;
 import com.juzhen.api.user.UserRpcService;
 import com.juzhen.http.user.redis.RedisClient;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -52,26 +57,37 @@ public class UserController {
 
     @RequestMapping(value = "/login" , method = { RequestMethod.POST })
     public Response login(UserRequest userRequest) {
-        System.out.println("用户开始登录"+ JSON.toJSONString(userRequest));
+        System.out.println("用户开始登录11111111"+ JSON.toJSONString(userRequest));
         String password = userRequest.getPassword();
         String username = userRequest.getUsername();
         //1. 验证用户名密码
         UserRpcDTO userRpcDTO = null;
-//        MessageService.Client messasgeService = serviceProvider.getMessasgeService();
-//        try {
-//            messasgeService.sendEmailMessage("18606530927", "12122");
-//        } catch (TException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            CustomerRpcService.Client customerService = serviceProvider.getCustomerService();
+            List<CustomerRpcDTO> customerRpcDTOS = customerService.queryCustomerList();
+            System.out.println("获取到customerRpcDTOS 服务={}"+JSON.toJSONString(customerRpcDTOS));
+        } catch (TException e) {
+            e.printStackTrace();
+            return Response.SERVICE_ERROR;
+        }
         try {
             UserRpcService.Client userService = serviceProvider.getUserService();
             userRpcDTO = userService.getUserByName(username);
+            System.out.println("获取到user2 服务={}"+userRpcDTO);
         } catch (TException e) {
             e.printStackTrace();
             return Response.SERVICE_ERROR;
         }
         if(userRpcDTO==null) {
             return Response.USERNAME_EMPTY;
+        }
+        TestRpcService.Client testService = serviceProvider.getTestService();
+        try {
+            System.out.println("获取到testRpcDTO服务start");
+            TestRpcDTO testRpcDTO = testService.testUserByName(username);
+            System.out.println("获取到testRpcDTO服务={}"+testRpcDTO);
+        } catch (TException e) {
+            e.printStackTrace();
         }
         String s = md5(password);
         //数据库密码

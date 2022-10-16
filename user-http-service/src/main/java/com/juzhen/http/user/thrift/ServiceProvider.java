@@ -1,9 +1,12 @@
 package com.juzhen.http.user.thrift;
 
 import com.juzhen.api.message.MessageService;
+import com.juzhen.api.sale.customer.CustomerRpcService;
+import com.juzhen.api.sale.test.TestRpcService;
 import com.juzhen.api.user.UserRpcService;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TMultiplexedProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
@@ -24,6 +27,12 @@ public class ServiceProvider {
     @Value("${thrift.user.port}")
     private int serverPort;
 
+    @Value("${thrift.sale.ip}")
+    private String serverIpSale;
+
+    @Value("${thrift.sale.port}")
+    private int serverPortSale;
+
     @Value("${thrift.message.ip}")
     private String messageServerIp;
     @Value("${thrift.message.port}")
@@ -31,12 +40,23 @@ public class ServiceProvider {
 
     private enum ServiceType {
         USER,
+        SALE_TEST,
+        SALE_CUSTOMER1,
         MESSAGE
     }
 
     public UserRpcService.Client getUserService() {
 
         return getService(serverIp, serverPort, ServiceType.USER);
+    }
+    public CustomerRpcService.Client getCustomerService() {
+        System.out.println(12121212);
+        return getService(serverIpSale, serverPortSale, ServiceType.SALE_CUSTOMER1);
+    }
+
+    public TestRpcService.Client getTestService() {
+
+        return getService(serverIpSale, serverPortSale, ServiceType.SALE_TEST);
     }
 
     public MessageService.Client getMessasgeService() {
@@ -54,11 +74,20 @@ public class ServiceProvider {
             return null;
         }
         TProtocol protocol = new TBinaryProtocol(transport);
-
         TServiceClient result = null;
         switch (serviceType) {
             case USER:
                 result = new UserRpcService.Client(protocol);
+                break;
+            case SALE_TEST:
+//                result = new TestRpcService.Client(protocol);
+                TMultiplexedProtocol mp1 = new TMultiplexedProtocol(protocol,"TestRpcService");
+                result= new TestRpcService.Client(mp1);
+                break;
+            case SALE_CUSTOMER1:
+//                result = new com.juzhen.api.sale.customer.CustomerRpcService.Client(protocol);
+                TMultiplexedProtocol mp11 = new TMultiplexedProtocol(protocol,"CustomerRpcService");
+                result= new CustomerRpcService.Client(mp11);
                 break;
             case MESSAGE:
                 result = new MessageService.Client(protocol);

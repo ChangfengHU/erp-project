@@ -16,6 +16,7 @@
         <module>sale-edge-service</module>
         <module>erp-api</module>
         <module>api-gateway-zuul</module>
+        <module>sale-thrift-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
