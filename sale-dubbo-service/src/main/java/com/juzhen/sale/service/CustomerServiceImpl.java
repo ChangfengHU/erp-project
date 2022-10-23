@@ -6,8 +6,8 @@ import com.juzhen.api.sale.service.CustomerRpcService;
 import com.juzhen.sale.entity.Customer;
 import com.juzhen.sale.mapper.CustomerMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

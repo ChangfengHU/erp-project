@@ -30,14 +30,12 @@ public class CurrentUserResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter methodParameter, @Nullable ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, @Nullable WebDataBinderFactory webDataBinderFactory) throws Exception {
         HttpServletRequest httpServletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         String token = httpServletRequest.getHeader("token");
-        log.info("@@@@@resolveArgument---token---{}",token);
         CurrentUser currentUser = SessionManager.userCache.getIfPresent(token);
-        log.info("resolveArgument---currentUser---{}",currentUser);
         CurrentUser currentUser1 = SessionManager.currentUser();
         log.info("resolveArgument---currentUser1---{}",currentUser1);
-        if (currentUser == null) {
-            throw new Exception("未登录");
-        }
+//        if (currentUser == null) {
+//            throw new Exception("未登录");
+//        }
         return currentUser;
     }
 }

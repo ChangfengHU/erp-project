@@ -13,4 +13,4 @@ spring:
         server-addr: ${nacos.address}:8848
 
 nacos:
-  address: 42.192.76.49
+  address: 39.107.238.107
