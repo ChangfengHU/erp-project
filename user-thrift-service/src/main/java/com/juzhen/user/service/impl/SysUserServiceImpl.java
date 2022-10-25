@@ -45,6 +45,7 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
         QueryWrapper<SysUser> wrapper = new QueryWrapper<SysUser>();
         wrapper.eq("username", user.getUsername());
         SysUser one = getOne(wrapper, true);
+        log.info("查询到数据库信息={}",one);
         handleAfterLogin(user, one);
         return one;
     }
@@ -53,7 +54,7 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
         Assert.notNull(one,"用户不存在");
         String md5Str = null;
         try {
-            md5Str = MD5Utils.getMD5Str(user.getPassword());
+            md5Str = MD5Utils.md5(user.getPassword());
         } catch (Exception e) {
             e.printStackTrace();
         }

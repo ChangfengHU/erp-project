@@ -1,4 +1,4 @@
-package com.juzhen.user.controller;
+package com.juzhen.user.controller.tob;
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 
@@ -26,7 +26,7 @@ import java.util.*;
 @Controller
 @RequestMapping("hy-admin/sys/menu")
 @Slf4j
-public class SysMenuController implements   BaseController  {
+public class SysMenuController   {
 
     @Autowired
     ISysMenuService sysMenuService;

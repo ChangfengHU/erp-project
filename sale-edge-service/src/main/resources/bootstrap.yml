@@ -21,4 +21,4 @@ ribbon:
   nacos:
     enabled: false
 nacos:
-  address: 39.107.238.107
+  address: 42.192.76.49

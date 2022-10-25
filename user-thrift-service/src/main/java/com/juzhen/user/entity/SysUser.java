@@ -26,7 +26,7 @@ public class SysUser extends Model<SysUser> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "user_id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String username;
@@ -41,6 +41,7 @@ public class SysUser extends Model<SysUser> implements Serializable {
 
     private String mobile;
 
+
     /**
      * 状态  0：禁用   1：正常
      */
@@ -51,6 +52,10 @@ public class SysUser extends Model<SysUser> implements Serializable {
      */
     private Integer kind;
 
+    /**
+     *  1主账号/2子账号
+     */
+    private Integer mainUserFlag;
     /**
      * 创建者ID
      */

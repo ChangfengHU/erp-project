@@ -3,7 +3,7 @@ spring:
     name: sale-edge-service
 dubbo:
   registry:
-    address: spring-cloud://39.107.238.107
+    address: spring-cloud://42.192.76.49
   cloud:
     subscribed-services: ${provider.application.name}
   application:

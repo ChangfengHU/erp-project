@@ -1,4 +1,4 @@
-package com.juzhen.user.controller;
+package com.juzhen.user.controller.tob;
 
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
@@ -6,14 +6,12 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.juzhen.common.result.ErpResult;
 import com.juzhen.user.entity.SysUser;
 import com.juzhen.user.mapper.SysUserMapper;
+import com.juzhen.user.redis.RedisClient;
 import com.juzhen.user.redis.TryCatch;
 import com.juzhen.user.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -27,53 +25,61 @@ import java.util.Random;
  * @since 2021-05-26
  */
 @RestController
-@RequestMapping("hy-admin/sys")
+@RequestMapping("login")
 @Slf4j
-public class SysUserController {
+public class LoginController {
 
     @Autowired
     ISysUserService sysUserService;
 
-
+    @Autowired
+    private RedisClient redisClient;
 
 
     @Autowired
     SysUserMapper sysUserMapper;
+
+
+
+    /*
+     * restful post /demo/handle
+     */
+    @RequestMapping(value = "/user", method = {RequestMethod.POST})
+    public ErpResult userPost(SysUser sysUser) {
+        sysUserService.save(sysUser);
+        return ErpResult.ok(true);
+    }
+
     @TryCatch
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     public ErpResult login(SysUser user) throws Exception {
         log.info("登录开始={}", user);
-
         //校验
         verifyParam(user);
         //登录
         SysUser one =sysUserService.login(user);
+
         //生成token
         HashMap<String, Object> stringStringHashMap = buildToken(one);
         return ErpResult.ok(stringStringHashMap);
     }
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public ErpResult logout(@RequestAttribute String token)  {
-//        redisTool.del(token);
+        redisClient.deleteCache(token);
         return ErpResult.ok(true);
     }
-
-
-
-
-
-
-
 
     private HashMap<String, Object> buildToken(SysUser one) {
         String token = genToken();
         //3. 缓存用户
-//        redisTool.set(token, one, 3600);
+        redisClient.putCache(token, one, 3600);
         HashMap<String, Object> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("token", token);
-        stringStringHashMap.put("expire", 43200);
+        stringStringHashMap.put("expire", 3600);
         return stringStringHashMap;
     }
+
+
 
     private void verifyParam(SysUser user) {
         Assert.isTrue(StringUtils.isNotEmpty(user.getUsername())
@@ -95,4 +101,8 @@ public class SysUserController {
         }
         return result.toString();
     }
+
+
+
+
 }

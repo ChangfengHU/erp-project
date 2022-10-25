@@ -1,0 +1,84 @@
+version: "3.4"
+services:
+#  message-service:
+#    image: 42.192.76.49:81/erp-service/message-service:1.0.6
+#    deploy:
+#      endpoint_mode: dnsrr
+#      resources:
+#        limits:
+#          cpus: "0.2"
+#          memory: "128M"
+
+  user-service:
+    image: 42.192.76.49:81/erp-service/user-service:1.0.6
+    command:
+      - "--mysql.address=121.40.8.72"
+    deploy:
+      endpoint_mode: dnsrr
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "512M"
+
+  user-http-service:
+    image: 42.192.76.49:81/erp-service/user-http-service:1.0.6
+    command:
+      - "--redis.address=47.96.141.35"
+    deploy:
+      endpoint_mode: vip
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "512M"
+    ports:
+      - "8081:8081"
+    depends_on:
+      - user-service
+      - message-service
+
+#  course-service:
+#    image: 42.192.76.49:81/erp-service/course-service:1.0.6
+#    command:
+#      - "--mysql.address=121.40.8.72"
+#      - "--zookeeper.address=47.96.141.35"
+#    deploy:
+#      endpoint_mode: dnsrr
+#      resources:
+#        limits:
+#          cpus: "0.2"
+#          memory: "512M"
+#    depends_on:
+#      - user-service
+#
+#  course-edge-service:
+#    image: 42.192.76.49:81/erp-service/course-edge-service:1.0.6
+#    command:
+#      - "--zookeeper.address=47.96.141.35"
+#    deploy:
+#      endpoint_mode: vip
+#      resources:
+#        limits:
+#          cpus: "0.2"
+#          memory: "512M"
+#    ports:
+#      - "8081:8081"
+#    depends_on:
+#      - user-http-service
+  api-gateway:
+    image: 42.192.76.49:81/erp-service/api-gateway-zuul:1.0.6
+    deploy:
+      endpoint_mode: vip
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "512M"
+    ports:
+      - "8087:80"
+    depends_on:
+      - user-http-service
+#      - course-edge-service
+
+networks:
+  default:
+    external:
+      name: erp-network

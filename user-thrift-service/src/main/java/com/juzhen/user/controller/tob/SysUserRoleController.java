@@ -1,4 +1,4 @@
-package com.juzhen.user.controller;
+package com.juzhen.user.controller.tob;
 
 
 import org.springframework.stereotype.Controller;

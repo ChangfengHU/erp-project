@@ -1,4 +1,4 @@
-package com.juzhen.user.controller;
+package com.juzhen.user.controller.tob;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.juzhen.common.exception.ExceptionUtil;
 import com.juzhen.common.exception.ResultStatusCode;
@@ -20,7 +20,7 @@ import java.util.zip.DataFormatException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
- 
+
     /**
      * 请求参数不全
      */
